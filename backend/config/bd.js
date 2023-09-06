@@ -1,9 +1,9 @@
 const mysql = require('mysql2');
 const pool = mysql.createConnection({
-    host: '89.117.59.147', 
-    user:'datacombo', 
-    password: 'D4t4comiano$2023!',
-    database: 'Asistente',
+    host: 'HOST', 
+    user:'USER', 
+    password: 'PASS',
+    database: 'BD_NOMBRE',
     charset: 'utf8mb4',
     // operatorsAliases: false,
     pool: {
