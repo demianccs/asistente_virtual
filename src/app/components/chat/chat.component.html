@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOC Asistente Virtual</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    #chatbot-container {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      width: 50%;
+      max-width: 400px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    #chatbot-header {
+      background-color: #00A1E6;
+      padding: 10px;
+      text-align: left;
+      color: white;
+    }
+    #chatbot-messages {
+      height: 400px;
+      overflow-y: scroll;
+      padding: 10px;
+      background-color: #fff;
+      font-size: .8em;
+    }
+    #chatbot-input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-top: 1px solid #ccc;
+    }
+    .rounded-button {
+      display: inline-block;
+      padding: 8px 8px;
+      background-color: #d6d6d6;
+      color: #000000;
+      border: none;
+      border-radius: 5px; /* Ajusta este valor para cambiar la curvatura del borde */
+      cursor: pointer;
+      margin-top: 10px;
+      width: 100%;
+      text-align: left;
+    }
+    .container {
+    border-radius: 10px;
+    border: 1px solid rgb(202, 202, 202);
+    padding: 5px;
+    background-color: white;
+    }
+    .input-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .left-image {
+      width: 20px; /* Ajusta el ancho de la imagen según tus necesidades */
+      height: auto;
+      margin-right: 5px; /* Espacio entre la imagen y el input */
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px;
+    }
+
+    .box {
+      flex: 1;
+      padding: 1px;
+      text-align: center;
+    }
+
+    .boxR {
+      flex: 1;
+      padding-right: 10px;
+      text-align: right;
+    }
+
+    input,
+    button {
+      width: 100%;
+      max-width: 100%;
+      margin: 0; /* Elimina márgenes */
+      padding: 1px; /* Ajusta el espaciado interno */
+    }
+    .thin-line {
+    height: .1px;
+    width: 100%;
+    background-color: grey; /* Cambia el color de fondo para simular una línea */
+    margin: 10px 0;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="chatbot-container">
+
+    <div id="chatbot-header">
+      <h3 (click)="ocultar()" style="margin: .5px; font-size: 17px;"><img src="assets/img/datacom_blanco.svg" width="35px" height=auto> Asistente Virtual</h3>
+    </div>
+
+    <!-- <div id="inicio" *ngIf="nombre==''; else elseBlock">
+      <div id="chatbot-messages" >
+        <div class="message incoming">
+          Bienvenido {{ nombre | uppercase }} soy <b> DOC</b>, tu asistente virtual en DATACOM, por favor introduce tu nombre.
+        </div>
+
+        <div class="message incoming">
+          <br>
+          <form [formGroup]="itemForms">
+            <div class="input-container">
+              <img src="assets/img/doc.png"  width="10%" height=auto alt="Image" class="left-image">
+              <input  placeholder="Escribe tu Nombre" (keyup.enter)="guardarNombre()" formControlName="nombre1">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- <ng-template #elseBlock> -->
+
+    <div  id="contenido">
+
+      <div id="chatbot-messages" #scrollableDiv >
+
+        <div class="message incoming">
+          <!-- Bienvenido {{ nombre | uppercase }} soy <b> DOC</b>, tu asistente virtual en DATACOM, en que puedo ayudarte?. -->
+          Bienvenido soy <b> DOC</b>, tu asistente virtual en DATACOM, en que puedo ayudarte?.
+        </div>
+        <img src="assets/img/doc.png" width="10%" height=auto> <br>
+
+        <div *ngFor="let menu of menuPrimero"  class="message incoming">
+          <button class="rounded-button" (click)="enviarMensajeBoton(menu.opciones, menu.tipo)">{{menu.opciones}}</button><br>
+        </div>
+
+        <div *ngFor="let mensaje of historial"  class="message incoming">
+          <p *ngIf="mensaje.usuario!=='DOC'" style="color: #004F9E; text-align: center; font-weight: bold;">{{ mensaje.respuesta }}</p>
+          <div class="container" *ngIf="mensaje.usuario=='DOC' && mensaje.respuesta.length>5 ">
+            <p [innerHTML]="mensaje.respuesta"><img src="assets/img/loading.gif" width="10%" height=auto> </p>
+          </div>
+          <div *ngFor="let innerItem of mensaje.respuesta">
+            <div *ngIf="innerItem.tipo!='detalle'">
+              <button class="rounded-button" (click)="enviarMensajeBoton(innerItem.opciones, innerItem.tipo)">{{ innerItem.opciones }}</button>
+            </div>
+            <div *ngIf="innerItem.tipo=='detalle'" class="container">
+              <p [innerHTML]="innerItem.opciones"><img src="assets/img/loading.gif" width="10%" height=auto></p>
+            </div>
+
+
+          </div>
+        </div>
+
+      </div>
+      <div  class="footer">
+        <div class="box"><div class="thin-line"></div><input [(ngModel)]="mensaje" placeholder="Mensaje" (keyup.enter)="enviarMensaje()" style="width: 80%;"/> <i class="pi pi-undo" (click)="refreshPage()" style="padding-left: 5px;"></i></div>
+      </div>
+
+    </div>
+  <!-- </ng-template> -->
+
+  </div>
+
+</body>
+</html>
+
+
+
+
+

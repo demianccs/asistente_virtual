@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot Assistant</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    #chatbot-container {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      width: 50%;
+      max-width: 400px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    #chatbot-header {
+      background-color: #00A1E6;
+      padding: 10px;
+      text-align: left;
+      color: white;
+    }
+    #chatbot-messages {
+      height: 300px;
+      overflow-y: scroll;
+      padding: 10px;
+      background-color: #fff;
+      font-size: .8em;
+    }
+    #chatbot-input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-top: 1px solid #ccc;
+    }
+    .rounded-button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #d6d6d6;
+      color: #000000;
+      border: none;
+      border-radius: 5px; /* Ajusta este valor para cambiar la curvatura del borde */
+      cursor: pointer;
+      margin-top: 10px;
+      width: 90%;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="chatbot-container">
+    <div id="chatbot-header">
+      <h3><img src="assets/img/datacom_blanco.svg" width="20%" height=auto> Asistente Vitual</h3>
+    </div>
+    <div id="chatbot-messages" #scrollableDiv>
+      <div class="message incoming">Bienvenido {{ nombre | uppercase }} soy <b> DOC</b>, tu asistente virtual en DATACOM, en que puedo ayudarte?.</div>
+      <img src="assets/img/doc.png" width="10%" height=auto> <br>
+      <button class="rounded-button" (click)="enviarMensajeBoton('servicios')">Nuestros Servicios</button><br>
+      <button  class="rounded-button" (click)="enviarMensajeBoton('ot')">Consulta el estado de tu Asistencia Técnica</button><br>
+      <button  class="rounded-button" (click)="enviarMensajeBoton('planes')">Planes Entel</button>
+      <button *ngIf="nombre=='dcolmedo'"  class="rounded-button" (click)="enviarMensajeBoton('datos')">Datos del Usuario DATACOM</button>
+
+
+      <div *ngFor="let mensaje of historial"  class="message incoming">
+        <p><strong>{{ mensaje.usuario }}:</strong> {{ mensaje.respuesta }}</p>
+      </div>
+
+      <p *ngIf="botones=='datos'"></p>
+      <button *ngIf="botones=='datos'" class="rounded-button" (click)="enviarMensajeBoton('clave')">Clave del portal</button>
+      <button *ngIf="botones=='datos'" class="rounded-button" (click)="enviarMensajeBoton('plataforma')">Plataforma</button>
+
+      <p *ngIf="botones=='planes'"></p>
+      <button *ngIf="botones=='planes'" class="rounded-button" (click)="enviarMensajeBoton('prepago')">Prepago</button>
+      <button *ngIf="botones=='planes'" class="rounded-button" (click)="enviarMensajeBoton('postpago')">Postpago</button>
+
+
+
+
+      <!-- Aquí puedes agregar más mensajes -->
+    </div>
+    <input [(ngModel)]="mensaje" placeholder="Escribe un mensaje" style="margin-left: 10px; margin-bottom: 10px;" />
+          <button (click)="enviarMensaje()">Enviar</button>
+  </div>
+
+
+
+
+</body>
+</html>
+
+
+
+
+
